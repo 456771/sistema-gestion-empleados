@@ -1,0 +1,85 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Empleado {
+    private int id;
+    private String nombre;
+    private String puesto;
+    private double salario;
+
+    public Empleado(int id, String nombre, String puesto, double salario) {
+        this.id = id;
+        this.nombre = nombre;
+        this.puesto = puesto;
+        this.salario = salario;
+    }
+
+    public void mostrarInformacion() {
+        System.out.println("ID: " + id + ", Nombre: " + nombre + ", Puesto: " + puesto + ", Salario: $" + salario);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Empleado> empleados = new ArrayList<>();
+
+        while (true) {
+            System.out.println("\n1. Agregar empleado");
+            System.out.println("2. Mostrar empleados");
+            System.out.println("3. Salir");
+            System.out.print("Elige una opción: ");
+            
+            if (!scanner.hasNextInt()) {
+                System.out.println("Entrada inválida. Introduce un número.");
+                if (scanner.hasNextLine()) scanner.nextLine(); // Limpiar buffer
+                continue;
+            }
+            
+            int opcion = scanner.nextInt();
+            if (scanner.hasNextLine()) scanner.nextLine(); // Consumir el salto de línea
+
+            if (opcion == 1) {
+                System.out.print("ID: ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Entrada inválida. Introduce un número entero para el ID.");
+                    if (scanner.hasNextLine()) scanner.nextLine();
+                }
+                int id = scanner.nextInt();
+                if (scanner.hasNextLine()) scanner.nextLine();
+                
+                System.out.print("Nombre: ");
+                String nombre = scanner.hasNextLine() ? scanner.nextLine() : "";
+                
+                System.out.print("Puesto: ");
+                String puesto = scanner.hasNextLine() ? scanner.nextLine() : "";
+                
+                System.out.print("Salario: ");
+                while (!scanner.hasNextDouble()) {
+                    System.out.println("Entrada inválida. Introduce un número decimal para el salario.");
+                    if (scanner.hasNextLine()) scanner.nextLine();
+                }
+                double salario = scanner.nextDouble();
+                if (scanner.hasNextLine()) scanner.nextLine(); // Consumir el salto de línea
+                
+                empleados.add(new Empleado(id, nombre, puesto, salario));
+                System.out.println("Empleado agregado con éxito.");
+            } else if (opcion == 2) {
+                System.out.println("\nLista de empleados:");
+                if (empleados.isEmpty()) {
+                    System.out.println("No hay empleados registrados.");
+                } else {
+                    for (Empleado emp : empleados) {
+                        emp.mostrarInformacion();
+                    }
+                }
+            } else if (opcion == 3) {
+                System.out.println("Saliendo...");
+                break;
+            } else {
+                System.out.println("Opción no válida.");
+            }
+        }
+        scanner.close();
+    }
+}
